@@ -1,15 +1,17 @@
-import Navbar from "./components/Navbar.js";
-import FormPropsTextFields from "./components/FormPropsTextFields.js";
+import FormPropsTextFields from './components/FormPropsTextFields';
+import Navbar from './components/Navbar';
 
 function App() {
+
+
   return (
     <div className="App">
-         <>
-            <Navbar/>
-           <main> 
-            <FormPropsTextFields/>
-           </main>
-         </>
+      <>
+        <main>
+          <Navbar/>
+          <FormPropsTextFields/>
+        </main>
+      </>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-// ComplaintForm.js
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,6 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+
+// Import the InputFileUpload component here
+import InputFileUpload from './InputFileUpload';
 
 const ComplaintForm = () => {
   const [name, setName] = useState('');
@@ -108,6 +110,8 @@ const ComplaintForm = () => {
           onChange={handleComplaintChange}
           margin="normal"
         />
+        {/* Add the InputFileUpload component here */}
+        <InputFileUpload />
         <Box marginTop={2}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Submit Complaint
