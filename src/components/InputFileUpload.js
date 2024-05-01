@@ -24,7 +24,7 @@ const Container = styled('div')({
 });
 
 const ButtonContainer = styled('div')({
-  marginRight: '16px', // Adjust margin as needed
+  marginRight: '16px', 
 });
 
 export default function InputFileUpload() {

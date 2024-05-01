@@ -1,19 +1,22 @@
-import FormPropsTextFields from './components/FormPropsTextFields';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import ComplaintReport from './pages/ComplaintReport';
+import EmergencyReport from './pages/EmergencyReport'
 
-function App() {
-
-
+const App = () => {
   return (
-    <div className="App">
-      <>
-        <main>
-          <Navbar/>
-          <FormPropsTextFields/>
-        </main>
-      </>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="ComplaintReport" element={<ComplaintReport />} />
+        <Route path="EmergencyReport" element={<EmergencyReport />}/>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
