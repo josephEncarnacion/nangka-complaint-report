@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 // Import the InputFileUpload component here
 import InputFileUpload from './InputFileUpload';
 
-const ComplaintForm = () => {
+const EmergencyForm = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [complaintType, setComplaintType] = useState('');
@@ -65,9 +65,9 @@ const ComplaintForm = () => {
           textAlign: 'center',
         }}
       >
-      <Typography align="center" variant="h5" gutterBottom>
-          Complaint Form
-      </Typography>
+         <Typography align="center" variant="h5" gutterBottom>
+        Emergency Form
+        </Typography>
         <TextField
           label="Name"
           variant="outlined"
@@ -85,7 +85,7 @@ const ComplaintForm = () => {
           margin="normal"
         />
         <FormControl fullWidth margin="normal" variant="outlined">
-          <InputLabel id="complaint-type-label">Complaint Type</InputLabel>
+          <InputLabel id="complaint-type-label">Emergency Type</InputLabel>
           <Select
             labelId="complaint-type-label"
             id="complaint-type"
@@ -101,7 +101,7 @@ const ComplaintForm = () => {
           </Select>
         </FormControl>
         <TextField
-          label="Enter your complaint"
+          label="Enter your Emergency"
           multiline
           rows={4}
           variant="outlined"
@@ -114,7 +114,7 @@ const ComplaintForm = () => {
         <InputFileUpload />
         <Box marginTop={2}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit Complaint
+            Submit Report
           </Button>
         </Box>
       </Box>
@@ -122,4 +122,4 @@ const ComplaintForm = () => {
   );
 };
 
-export default ComplaintForm;
+export default EmergencyForm;
