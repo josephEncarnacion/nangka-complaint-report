@@ -6,6 +6,18 @@ import ComplaintReport from './pages/ComplaintReport';
 import EmergencyReport from './pages/EmergencyReport'
 
 const App = () => {
+  const getData = async (url) =>{
+    const newData = await fetch(url,{
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => res.json());
+    console.log(newData);
+  }
+  getData('/api');
   return (
     <Router>
       <Navbar />

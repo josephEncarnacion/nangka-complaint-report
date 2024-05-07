@@ -7,15 +7,13 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
-
-// Import the InputFileUpload component here
 import InputFileUpload from './InputFileUpload';
 
 const EmergencyForm = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [complaintType, setComplaintType] = useState('');
-  const [complaintText, setComplaintText] = useState('');
+  const [emergencyType, setEmergencyType] = useState('');
+  const [emergencyText, setEmergencyText] = useState('');
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -25,12 +23,13 @@ const EmergencyForm = () => {
     setAddress(event.target.value);
   };
 
-  const handleComplaintTypeChange = (event) => {
-    setComplaintType(event.target.value);
+  const handleEmergencyTypeChange = (event) => { 
+    setEmergencyType(event.target.value); 
   };
 
-  const handleComplaintChange = (event) => {
-    setComplaintText(event.target.value);
+  const handleEmergencyChange = (event) => { 
+    setEmergencyText(event.target.value);  
+
   };
 
   const handleSubmit = () => {
@@ -38,9 +37,9 @@ const EmergencyForm = () => {
     const formData = {
       name,
       address,
-      complaintType,
-      complaintText,
-    };
+      emergencyType,
+      emergencyText,
+    }; 
     console.log('Form data submitted:', formData);
     // Add your logic to handle the complaint submission (e.g., send it to the server)
   };
@@ -89,8 +88,8 @@ const EmergencyForm = () => {
           <Select
             labelId="complaint-type-label"
             id="complaint-type"
-            value={complaintType}
-            onChange={handleComplaintTypeChange}
+            value={emergencyType}
+            onChange={handleEmergencyTypeChange}
             label="Complaint Type"
           >
             <MenuItem value="Noise Complaint">Noise Complaint</MenuItem>
@@ -106,8 +105,8 @@ const EmergencyForm = () => {
           rows={4}
           variant="outlined"
           fullWidth
-          value={complaintText}
-          onChange={handleComplaintChange}
+          value={emergencyText}
+          onChange={handleEmergencyChange}
           margin="normal"
         />
         {/* Add the InputFileUpload component here */}
