@@ -1,18 +1,26 @@
-const config  = require('./dbConfig'),
-      sql     = require ('mssql')
-    
-const getReport = async() =>{
-    try{
-        let pool = await sql.connect(config)
-        let report = pool.request().query("SELECT * from Complaint_tbl")
-        console.log(report);
-        return report;
+const config = require('./dbConfig');
+const sql = require('mssql');
+
+const insertComplaint = async (name, address, complaintType, complaintText) => {
+    try {
+        let pool = await sql.connect(config);
+        const query = `
+            INSERT INTO Complaint_tbl (Name, Address, ComplaintType, ComplaintText)
+            VALUES (@name, @address, @complaintType, @complaintText)
+        `;
+        await pool.request()
+            .input('name', sql.VarChar, name)
+            .input('address', sql.VarChar, address)
+            .input('complaintType', sql.VarChar, complaintType)
+            .input('complaintText', sql.VarChar, complaintText)
+            .query(query);
+        console.log('Complaint inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting complaint:', error);
+        throw error;
     }
-    catch(error){
-        console.log(error); 
-    }   
-}
+};
 
 module.exports = {
-    getReport
-}
+    insertComplaint
+};

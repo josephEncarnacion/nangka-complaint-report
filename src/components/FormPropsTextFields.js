@@ -33,17 +33,31 @@ const ComplaintForm = () => {
     setComplaintText(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle submission logic (e.g., send complaint report to the server)
+  const handleSubmit = async () => {
     const formData = {
-      name,
-      address,
-      complaintType,
-      complaintText,
+        name,
+        address,
+        complaintType,
+        complaintText,
     };
-    console.log('Form data submitted:', formData);
-    // Add your logic to handle the complaint submission (e.g., send it to the server)
-  };
+
+    try {
+        const response = await fetch('/submitComplaint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        console.log('Response from server:', data);
+        // Optionally, handle success or failure based on the response
+    } catch (error) {
+        console.error('Error submitting complaint:', error);
+        // Handle error
+    }
+};
 
   return (
     <Box

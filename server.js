@@ -1,23 +1,25 @@
-const express     = require('express'),
-      dbOperation = require('./dbfiles/dbOperation'),
-      cors        = require('cors');
+const express = require('express');
+const dbOperation = require('./dbfiles/dbOperation');
+const cors = require('cors');
 
-// const API_PORT = process.env.PORT || 5000;
-// const app = express();
+const API_PORT = process.env.PORT || 5000;
+const app = express();
 
-// app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Use extended to parse nested objects
+app.use(cors());
 
-// app.get('/api', function (req, res){
-//     console.log('Called');
-//     res.send({result: 'hello'})
-// })
-// app.get('/quit', function (req, res){
-//     console.log('Called');
-//     res.send({result: 'goodbye'})
-// })
+// Route to handle form submission
+app.post('/submitComplaint', async (req, res) => {
+    const { name, address, complaintType, complaintText } = req.body;
+    try {
+        // Insert form data into the database
+        await dbOperation.insertComplaint(name, address, complaintType, complaintText);
+        res.status(200).json({ success: true, message: 'Complaint submitted successfully.' });
+    } catch (error) {
+        console.error('Error submitting complaint:', error);
+        res.status(500).json({ success: false, message: 'Failed to submit complaint.' });
+    }
+});
 
-    dbOperation.getReport().then(res =>{
-        console.log(res);
-    })
-// app.listen(API_PORT, () => console.log(`Listening on PORT ${API_PORT}`));
-
+app.listen(API_PORT, () => console.log(`Server is running on port ${API_PORT}`));
