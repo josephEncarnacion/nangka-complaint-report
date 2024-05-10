@@ -22,4 +22,16 @@ app.post('/submitComplaint', async (req, res) => {
     }
 });
 
+app.post('/submitEmergencyReport', async (req, res) => {
+    const { name, address, emergencyType, emergencyText } = req.body;
+    try {
+        // Insert emergency report data into the database
+        await dbOperation.insertEmergencyReport(name, address, emergencyType, emergencyText);
+        res.status(200).json({ success: true, message: 'Emergency report submitted successfully.' });
+    } catch (error) {
+        console.error('Error submitting emergency report:', error);
+        res.status(500).json({ success: false, message: 'Failed to submit emergency report.' });
+    }
+});
+
 app.listen(API_PORT, () => console.log(`Server is running on port ${API_PORT}`));

@@ -32,17 +32,31 @@ const EmergencyForm = () => {
 
   };
 
-  const handleSubmit = () => {
-    // Handle submission logic (e.g., send complaint report to the server)
+  const handleSubmit = async () => {
     const formData = {
-      name,
-      address,
-      emergencyType,
-      emergencyText,
-    }; 
-    console.log('Form data submitted:', formData);
-    // Add your logic to handle the complaint submission (e.g., send it to the server)
-  };
+        name,
+        address,
+        emergencyType,
+        emergencyText,
+    };
+
+    try {
+        const response = await fetch('/submitEmergencyReport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        console.log('Response from server:', data);
+        // Optionally, handle success or failure based on the response
+    } catch (error) {
+        console.error('Error submitting emergency report:', error);
+        // Handle error
+    }
+};
 
   return (
     <Box
@@ -92,10 +106,10 @@ const EmergencyForm = () => {
             onChange={handleEmergencyTypeChange}
             label="Complaint Type"
           >
-            <MenuItem value="Noise Complaint">Noise Complaint</MenuItem>
-            <MenuItem value="Garbage Collection Issue">Garbage Collection Issue</MenuItem>
-            <MenuItem value="Street Light Outage">Street Light Outage</MenuItem>
-            <MenuItem value="Traffic Violation">Traffic Violation</MenuItem>
+            <MenuItem value="Earthquake">Earthquake</MenuItem>
+            <MenuItem value="Fire">Fire</MenuItem>
+            <MenuItem value="Flood">Flood</MenuItem>
+            <MenuItem value="medical emergencies">medical emergencies</MenuItem>
             {/* Add more complaint types as needed */}
           </Select>
         </FormControl>
