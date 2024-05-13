@@ -39,9 +39,38 @@ const insertEmergencyReport = async (name, address, emergencyType, emergencyText
         throw error;
     }
 };
+async function getUserByUsername(username) {
+    try {
+        let pool = await sql.connect(config);
+        const query = 'SELECT * FROM users WHERE username = @username';
+        const result = await pool.request()
+            .input('username', sql.VarChar, username)
+            .query(query);
+        return result.recordset[0]; // Assuming you expect only one user
+    } catch (error) {
+        console.error('Error retrieving user by username:', error);
+        throw error;
+    }
+}
 
-
+async function insertUser(user) {
+    try {
+        let pool = await sql.connect(config);
+        const query = 'INSERT INTO users (username, email, password) VALUES (@username, @email, @password)';
+        await pool.request()
+            .input('username', sql.VarChar, user.username)
+            .input('email', sql.VarChar, user.email)
+            .input('password', sql.VarChar, user.password)
+            .query(query);
+        console.log('User inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting user:', error);
+        throw error;
+    }
+}
 module.exports = {
     insertEmergencyReport,
-    insertComplaint
+    insertComplaint,
+    getUserByUsername,
+    insertUser,
 };

@@ -34,4 +34,52 @@ app.post('/submitEmergencyReport', async (req, res) => {
     }
 });
 
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/login.js');
+  });
+  
+  app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/register.js');
+  });
+  
+  // Login route
+  app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      const user = await dbOperation.getUserByUsername(username);
+      if (user && user.password === password) {
+        // Login successful
+        res.status(200).json({ success: true, message: 'Login successful.' });
+      } else {
+        // Invalid credentials
+        res.status(401).json({ success: false, message: 'Invalid credentials.' });
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).json({ success: false, message: 'Error logging in.' });
+    }
+  });
+  app.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    try {
+      // Check if the user already exists
+      const existingUser = await dbOperation.getUserByUsername(username);
+      if (existingUser) {
+        res.status(400).json({ success: false, message: 'Username already exists.' });
+      } else {
+        // Insert the new user into the database
+        await dbOperation.insertUser({ username, email, password });
+        res.status(200).json({ success: true, message: 'Registration successful.' });
+      }
+    } catch (error) {
+      console.error('Error registering:', error);
+      res.status(500).json({ success: false, message: 'Error registering.' });
+    }
+  });
+  app.post('/api/register', (req, res) => {
+    const { username, email, password } = req.body;
+    // Verify the registration data and create a new user
+    res.json({ success: true });
+  });
+
 app.listen(API_PORT, () => console.log(`Server is running on port ${API_PORT}`));
