@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ComplaintReport from './pages/ComplaintReport';
 import EmergencyReport from './pages/EmergencyReport'
 import Login from  './pages/login';
 import Register from './pages/register';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   const getData = async (url) =>{
@@ -23,18 +24,17 @@ const App = () => {
   getData('/api');
   
   return (
-    <div>
-      <Login/>
-      <Register/>
+    <AuthProvider>
     <Router>
-            <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="ComplaintReport" element={<ComplaintReport />} />
-        <Route path="EmergencyReport" element={<EmergencyReport />}/>
+        <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+        <Route path="ComplaintReport" element={<ProtectedRoute element={<ComplaintReport />} />} />
+        <Route path="EmergencyReport" element={<ProtectedRoute element={<EmergencyReport />} />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </Router>
-    </div>
+  </AuthProvider>
   );
 };
 

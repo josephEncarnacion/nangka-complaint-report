@@ -1,9 +1,12 @@
+// src/pages/Login.js
 import React from 'react';
-import { Grid, TextField, Button, Typography }from '@mui/material'
+import { Grid, TextField, Button, Typography } from '@mui/material';
+import { useAuth } from '../contexts/AuthContext';
 
 function Login() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,6 +18,7 @@ function Login() {
       });
       const data = await response.json();
       if (data.success) {
+        login();
         window.location.href = '/';
       } else {
         alert('Invalid credentials');

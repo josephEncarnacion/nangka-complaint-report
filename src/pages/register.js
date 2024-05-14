@@ -1,5 +1,6 @@
+// src/pages/Register.js
 import React from 'react';
-import { Grid, TextField, Button, Typography } from '@mui/material'
+import { Grid, TextField, Button, Typography } from '@mui/material';
 
 function Register() {
   const [username, setUsername] = React.useState('');
