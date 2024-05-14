@@ -9,6 +9,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Use extended to parse nested objects
 app.use(cors());
 
+app.get('/api', (req, res) => {
+  res.json({ message: 'API endpoint is working' });
+});
+
 // Route to handle form submission
 app.post('/submitComplaint', async (req, res) => {
     const { name, address, complaintType, complaintText } = req.body;
@@ -42,23 +46,26 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/register.js');
   });
   
-  // Login route
   app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
-      const user = await dbOperation.getUserByUsername(username);
-      if (user && user.password === password) {
-        // Login successful
-        res.status(200).json({ success: true, message: 'Login successful.' });
-      } else {
-        // Invalid credentials
-        res.status(401).json({ success: false, message: 'Invalid credentials.' });
-      }
+        const user = await dbOperation.getUserByUsername(username);
+        if (user && user.password === password) {
+            res.status(200).json({ success: true, message: 'Login successful.' });
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials.' });
+        }
     } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ success: false, message: 'Error logging in.' });
+        console.error('Error logging in:', error);
+        res.status(500).json({ success: false, message: 'Error logging in.' });
     }
-  });
+});
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
+
   app.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
     try {

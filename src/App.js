@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import ComplaintReport from './pages/ComplaintReport';
@@ -9,29 +9,51 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
-  const getData = async (url) =>{
-    const newData = await fetch(url,{
-      method: 'GET',
-      headers:{
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+  useEffect(() => {
+    const getData = async (url) => {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const newData = await response.json();
+        console.log(newData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-    })
-    .then(res => res.json());
-    console.log(newData);
-  }
-  
-  getData('/api');
+    };
+
+    getData('http://localhost:5000/api');  // Ensure the URL is correct
+  }, []);
+
   
   return (
     <AuthProvider>
     <Router>
       <Routes>
-        <Route path="/" element={<ProtectedRoute element={<Home />} />} />
-        <Route path="ComplaintReport" element={<ProtectedRoute element={<ComplaintReport />} />} />
-        <Route path="EmergencyReport" element={<ProtectedRoute element={<EmergencyReport />} />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="ComplaintReport" element={<ComplaintReport />} />
+                <Route path="EmergencyReport" element={<EmergencyReport />} />
+              </Routes>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   </AuthProvider>

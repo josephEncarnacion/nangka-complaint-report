@@ -1,12 +1,13 @@
-// src/pages/Login.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, TextField, Button, Typography } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 
 function Login() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from context
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,8 +19,8 @@ function Login() {
       });
       const data = await response.json();
       if (data.success) {
-        login();
-        window.location.href = '/';
+        login(); // Update authentication state
+        navigate('/'); // Redirect to home page
       } else {
         alert('Invalid credentials');
       }
